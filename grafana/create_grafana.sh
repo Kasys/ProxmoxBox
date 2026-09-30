@@ -69,10 +69,10 @@ echo "deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com st
 apt update
 apt install -y grafana
 
-grafana-cli admin reset-admin-password "$PASSWORD"
-
 systemctl enable grafana-server
 systemctl start grafana-server
+
+grafana cli admin reset-admin-password "$PASSWORD"
 EOF
 
 echo "Grafana installed!"
