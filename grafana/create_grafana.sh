@@ -56,7 +56,7 @@ pct start $CTID
 sleep 5
 
 # Install Grafana
-pct exec $CTID -- bash <<'EOF'
+pct exec $CTID -- bash -c "PASSWORD='$PASSWORD' bash -s" <<'EOF'
 apt update
 apt install -y apt-transport-https wget gnupg
 

@@ -10,4 +10,9 @@ echo "Creating Grafana..."
 
 echo "Grafana finished."
 
+echo "Creating Prometheus..."
+"$SCRIPT_DIR/prometheus/create_prometheus.sh"
+
+echo "Prometheus finished."
+
 echo "Setup complete."

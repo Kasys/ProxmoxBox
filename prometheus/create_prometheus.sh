@@ -61,7 +61,12 @@ apt install -y prometheus
 
 systemctl enable prometheus
 systemctl start prometheus
+
+apt install -y prometheus-snmp-exporter
+
+systemctl enable prometheus-snmp-exporter
+systemctl start prometheus-snmp-exporter
 EOF
 
-echo "Prometheus installed!"
-echo "Open: http://$IP:9090"
+echo "Prometheus and exporter installed!"
+echo "Open: http://$IP:9090 and http://$IP:9116"
