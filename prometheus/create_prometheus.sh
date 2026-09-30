@@ -1,5 +1,7 @@
 #!/bin/bash
-set -e
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Configuration
 CTID=102
@@ -53,6 +55,9 @@ pct create $CTID $TEMPLATE \
 pct start $CTID
 
 sleep 5
+
+# Put config files
+pct push $CTID "$SCRIPT_DIR/prometheus.yml" "/etc/prometheus/prometheus.yml"
 
 # Install Prometheus
 pct exec $CTID -- bash <<'EOF'
