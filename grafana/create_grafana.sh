@@ -4,7 +4,7 @@ set -e
 # Configuration
 CTID=101
 HOSTNAME=grafana
-IP=192.168.213.69/24
+IP=192.168.213.60/24
 GATEWAY=192.168.213.254
 BRIDGE=vmbr0
 PASSWORD=${PASSWORD:?Set PASSWORD environment variable}
@@ -68,6 +68,8 @@ echo "deb [signed-by=/usr/share/keyrings/grafana.key] https://apt.grafana.com st
 
 apt update
 apt install -y grafana
+
+grafana-cli admin reset-admin-password "$PASSWORD"
 
 systemctl enable grafana-server
 systemctl start grafana-server
