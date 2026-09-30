@@ -56,15 +56,18 @@ pct start $CTID
 
 sleep 5
 
-# Put config files
-pct push $CTID "$SCRIPT_DIR/prometheus.yml" "/etc/prometheus/prometheus.yml"
-
 # Install Prometheus
 pct exec $CTID -- bash <<'EOF'
 apt update
 apt install -y prometheus
 
 systemctl enable prometheus
+EOF
+
+# Put config files
+pct push $CTID "$SCRIPT_DIR/prometheus.yml" "/etc/prometheus/prometheus.yml"
+
+pct exec $CTID -- bash <<'EOF'
 systemctl start prometheus
 
 apt install -y prometheus-snmp-exporter
