@@ -25,6 +25,10 @@ echo "Making scripts executable..."
 
 find "$INSTALL_DIR" -type f -name "*.sh" -exec chmod +x {} \;
 
+if [ "${BOOTSTRAP_SKIP_SETUP+x}" ]; then
+    exit 0
+fi
+
 echo "Running setup.sh..."
 
 cd "$INSTALL_DIR"
