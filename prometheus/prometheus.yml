@@ -44,3 +44,8 @@ scrape_configs:
 
       - target_label: __address__
         replacement: localhost:9116
+
+  # Exporter process metrics.
+  - job_name: snmp_exporter
+    static_configs:
+      - targets: ["localhost:9116"]
