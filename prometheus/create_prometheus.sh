@@ -18,7 +18,7 @@ ROOTFS_STORAGE=local-lvm
 # Download Debian template
 pveam update
 
-TEMPLATE=$(pveam available --section system | grep "debian-12-standard" | tail -1 | awk '{print $2}')
+TEMPLATE=$(pveam available --section system | grep "debian-13-standard" | tail -1 | awk '{print $2}')
 
 if [ -z "$TEMPLATE" ]; then
     echo "No Debian template found"
