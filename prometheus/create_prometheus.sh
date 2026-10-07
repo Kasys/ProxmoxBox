@@ -18,6 +18,7 @@ ROOTFS_STORAGE=local-lvm
 # Download Debian template
 pveam update
 
+# TODO fix debin-13 pulls an arm64 image, but we need amd64
 TEMPLATE=$(pveam available --section system | grep "debian-13-standard" | tail -1 | awk '{print $2}')
 
 if [ -z "$TEMPLATE" ]; then
