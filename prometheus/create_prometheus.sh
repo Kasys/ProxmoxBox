@@ -77,7 +77,7 @@ EOF
 
 pct push $CTID "$SCRIPT_DIR/snmp.yml" "/etc/prometheus/snmp.yml"
 
-pct exec $PTID -- bash <<'EOF'
+pct exec $CTID -- bash <<'EOF'
 systemctl start prometheus-snmp-exporter
 EOF
 
