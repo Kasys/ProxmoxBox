@@ -12,6 +12,14 @@ auths:
     auth_protocol: MD5
     priv_protocol: DES
     version: 2
+  lab_v3:
+    version: 3
+    username: monitor
+    security_level: authPriv
+    password: "AUTH_PASSWORT_HIER"
+    auth_protocol: SHA
+    priv_protocol: AES
+    priv_password: "PRIV_PASSWORT_HIER"
 modules:
   apcups:
     walk:
