@@ -72,16 +72,17 @@ pct exec $CTID -- bash <<'EOF'
 systemctl start prometheus
 
 apt install -y prometheus-snmp-exporter
-
-systemctl enable prometheus-snmp-exporter
 EOF
 
 # Put config files
 pct push $CTID "$SCRIPT_DIR/snmp.yml" "/etc/prometheus/snmp.yml"
 pct push $CTID "$SCRIPT_DIR/snmp_exporter_default" "/etc/default/prometheus-snmp-exporter"
 
+# restart arsch nötig
 pct exec $CTID -- bash <<'EOF'
+systemctl enable prometheus-snmp-exporter
 systemctl start prometheus-snmp-exporter
+systemctl restart prometheus-snmp-exporter
 EOF
 
 echo "Prometheus and exporter installed!"
