@@ -78,7 +78,7 @@ EOF
 
 # Put config files
 pct push $CTID "$SCRIPT_DIR/snmp.yml" "/etc/prometheus/snmp.yml"
-pct push $CTID "$SCRIPT_DIR/snmp_exporter_default" "/etc/default/prometheus-snmp-explorer"
+pct push $CTID "$SCRIPT_DIR/snmp_exporter_default" "/etc/default/prometheus-snmp-exporter"
 
 pct exec $CTID -- bash <<'EOF'
 systemctl start prometheus-snmp-exporter
