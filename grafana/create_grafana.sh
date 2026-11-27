@@ -1,6 +1,8 @@
 #!/bin/bash
 set -euo pipefail
 
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Configuration
 CTID=101
 HOSTNAME=grafana
@@ -16,7 +18,7 @@ ROOTFS_STORAGE=local-lvm
 # Download Debian template
 pveam update
 
-TEMPLATE=$(pveam available --section system | grep "debian-12-standard" | tail -1 | awk '{print $2}')
+TEMPLATE=$(pveam available --section system | grep "debian-12-standard" | grep "amd64" | tail -1 | awk '{print $2}')
 
 if [ -z "$TEMPLATE" ]; then
     echo "No Debian template found"
@@ -75,7 +77,33 @@ cat >> /etc/grafana/grafana.ini <<EOC
 admin_user = admin
 admin_password = $PASSWORD
 EOC
+EOF
 
+# Create provisioning directories
+pct exec "$CTID" -- mkdir -p /etc/grafana/provisioning/datasources
+pct exec "$CTID" -- mkdir -p /etc/grafana/provisioning/dashboards
+pct exec "$CTID" -- mkdir -p /var/lib/grafana/dashboards
+
+# Push datasource configuration
+pct push "$CTID" \
+    "$SCRIPT_DIR/provisioning/datasources/prometheus.yml" \
+    "/etc/grafana/provisioning/datasources/prometheus.yml"
+
+# Push dashboard provider configuration
+pct push "$CTID" \
+    "$SCRIPT_DIR/provisioning/dashboards/dashboards.yml" \
+    "/etc/grafana/provisioning/dashboards/dashboards.yml"
+
+# Push dashboard
+pct push "$CTID" \
+    "$SCRIPT_DIR/provisioning/dashboards/system-monitoring.json" \
+    "/var/lib/grafana/dashboards/system-monitoring.json"
+
+# Set permissions
+pct exec "$CTID" -- chown -R grafana:grafana /etc/grafana/provisioning
+pct exec "$CTID" -- chown -R grafana:grafana /var/lib/grafana/dashboards
+
+pct exec "$CTID" -- bash <<'EOF'
 systemctl enable grafana-server
 systemctl start grafana-server
 EOF

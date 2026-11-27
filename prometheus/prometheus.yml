@@ -33,7 +33,7 @@ scrape_configs:
 
     static_configs:
       - targets:
-          - 172.25.227.186:161
+          - 192.168.213.95:161
 
     relabel_configs:
       - source_labels: [__address__]
