@@ -56,6 +56,15 @@ pct start $CTID
 
 sleep 5
 
+# Dings äh Port for alle sperren außer Grafaner
+pct exec $CTID -- bash <<'EOF'
+nft add rule inet filter input ct state established,related accept
+nft add rule inet filter input tcp dport 22 accept
+nft add rule inet filter input ip saddr 192.168.213.60 tcp dport 9090 accept
+nft add rule inet filter input tcp dport 9090 drop
+nft list ruleset > /etc/nftables.conf && systemctl enable --now nftables
+EOF
+
 # Install Prometheus
 pct exec $CTID -- bash <<'EOF'
 apt update
